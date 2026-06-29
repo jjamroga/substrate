@@ -74,6 +74,8 @@ var (
 	showVersion     = pflag.Bool("version", false, "Print version and exit.")
 	authMode        = pflag.String("auth-mode", "mtls", "Auth mode for incoming gRPC: mtls|jwt. 'mtls' (default) relies on transport-level mTLS for client identity. 'jwt' additionally requires a Kubernetes ServiceAccount Bearer token on every RPC. Substrate will drop support for JWT auth mode once the Pod Certificates feature is enabled by default in the minimum supported Kubernetes version.")
 	clientJWTCAFile = pflag.String("client-jwt-ca-cert", ateapiauth.DefaultServiceAccountCAFile, "CA cert file used to verify TLS when fetching the OIDC discovery document and JWKS for JWT authentication. Defaults to the in-cluster service account CA.")
+
+	ateletNamespace = pflag.String("atelet-namespace", controlapi.DefaultAteletNamespace, "Namespace where atelet pods run. Override when the deployment runs atelet in a namespace other than the default.")
 )
 
 func main() {
@@ -136,7 +138,7 @@ func main() {
 	sandboxConfigLister := ateFactory.Api().V1alpha1().SandboxConfigs().Lister()
 
 	workerPodInformerFactory, workerPodInformer := controlapi.WorkerPodInformer(clientset)
-	ateletPodInformerFactory, ateletPodInformer := controlapi.AteletInformer(clientset)
+	ateletPodInformerFactory, ateletPodInformer := controlapi.AteletInformer(clientset, *ateletNamespace)
 
 	syncer := controlapi.NewWorkerPoolSyncer(redisPersistence, workerPodInformer)
 	syncer.Start(ctx)
