@@ -170,6 +170,11 @@ spec:
         - "--log-level=debug"
         - "--interval=10s"
         - "--corefile-path=/etc/coredns/Corefile"
+        # Pass the chart-resolved names/namespace so the controller looks up
+        # the correct Services when substrate is installed as a subchart.
+        - "--system-namespace=ate-system"
+        - "--router-service-name=atenet-router"
+        - "--dns-service-name=dns"
         volumeMounts:
         - name: dns-config-volume
           mountPath: /etc/coredns
