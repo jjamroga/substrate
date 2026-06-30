@@ -110,10 +110,6 @@ spec:
         - "--session-id-ca-pool=/run/session-id-ca-pool/pool.json"
         - "--client-jwt-ca-cert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 {{- end }}
-        # Pass the chart-resolved namespace so the atelet pod informer
-        # watches the correct namespace when substrate is installed as a
-        # subchart (the binary default is "ate-system").
-        - "--atelet-namespace={{ .Release.Namespace }}"
         env:
         - name: POD_NAME
           valueFrom:
