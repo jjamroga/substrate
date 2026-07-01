@@ -44,11 +44,10 @@ patches:
       namespace: ate-system
     patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: --ateapi-auth=jwt
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: --ateapi-token-file=/run/ateapi-token/token
+        path: /spec/template/spec/containers/0/args
+        value:
+        - --ateapi-auth=jwt
+        - --ateapi-token-file=/run/ateapi-token/token
   - target:
       group: apps
       version: v1
