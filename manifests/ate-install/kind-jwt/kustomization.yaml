@@ -40,6 +40,7 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args
         value:
+        - --ateapi-ca-file=/run/servicedns-ca/trust-bundle.pem
         - --ateapi-auth=jwt
         - --ateapi-token-file=/run/ateapi-token/token
   - target:
@@ -49,6 +50,9 @@ patches:
       name: atenet-router
       namespace: ate-system
     patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --ateapi-ca-file=/run/servicedns-ca/trust-bundle.pem
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --ateapi-auth=jwt
